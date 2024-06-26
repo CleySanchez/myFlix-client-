@@ -1,0 +1,43 @@
+.movie-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.movie-view img {
+  max-width: 300px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.movie-view h2 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.movie-view .details {
+  font-size: 1em;
+  color: #666;
+  text-align: center;
+}
+
+.movie-view .details .description {
+  margin-top: 20px;
+}
+
+.movie-view .back-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.movie-view .back-button:hover {
+  background-color: #0056b3;
+}

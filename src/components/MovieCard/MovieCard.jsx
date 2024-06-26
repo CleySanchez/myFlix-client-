@@ -1,12 +1,12 @@
 // src/components/movie-card/movie-card.jsx
-import React from 'react';
+import React from "react";
+import "./MovieCard.scss";
 
-const MovieCard = ({ movie, onMovieClick }) => {
+export const MovieCard = ({ movie, onMovieClick }) => {
   return (
     <div className="movie-card" onClick={() => onMovieClick(movie)}>
+      <img src={movie.image} alt={`${movie.title} poster`} />
       <h3>{movie.title}</h3>
     </div>
   );
 };
-
-export default MovieCard;
