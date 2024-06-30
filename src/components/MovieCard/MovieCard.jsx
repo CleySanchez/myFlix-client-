@@ -1,5 +1,4 @@
 // src/components/MovieCard/MovieCard.jsx
-
 import React from "react";
 import PropTypes from "prop-types";
 import "./MovieCard.scss";
