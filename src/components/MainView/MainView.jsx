@@ -58,7 +58,6 @@ const MainView = () => {
 export { MainView }; */
 
 // src/components/MainView/MainView.jsx
-
 import React, { useEffect, useState } from "react";
 import { MovieCard } from "../MovieCard/MovieCard";
 import { MovieView } from "../MovieView/MovieView";
