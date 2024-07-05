@@ -1,74 +1,25 @@
-/* // components/MainView.js
-import React, { useState } from "react";
-import { MovieCard } from "../MovieCard/MovieCard";
-import { MovieView } from "../MovieView/MovieView";
-import "./MainView.scss";
-
-const MainView = () => {
-  const [movies, setMovies] = useState([
-    {
-      id: 1,
-      title: "Inception",
-      description: "A thief who steals corporate secrets through the use of dream-sharing technology...",
-      image: "https://path/to/inception.jpg",
-      genre: "Sci-Fi",
-      director: "Christopher Nolan"
-    },
-    {
-      id: 2,
-      title: "Interstellar",
-      description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival...",
-      image: "https://path/to/interstellar.jpg",
-      genre: "Sci-Fi",
-      director: "Christopher Nolan"
-    },
-    {
-      id: 3,
-      title: "The Dark Knight",
-      description: "When the menace known as the Joker emerges from his mysterious past...",
-      image: "https://path/to/dark-knight.jpg",
-      genre: "Action",
-      director: "Christopher Nolan"
-    }
-  ]);
-
-  const [selectedMovie, setSelectedMovie] = useState(null);
-
-  const handleMovieClick = (movie) => {
-    setSelectedMovie(movie);
-  };
-
-  const handleBackClick = () => {
-    setSelectedMovie(null);
-  };
-
-  if (selectedMovie) {
-    return <MovieView movie={selectedMovie} onBackClick={handleBackClick} />;
-  }
-
-  return (
-    <div className="main-view">
-      {movies.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} onMovieClick={handleMovieClick} />
-      ))}
-    </div>
-  );
-};
-
-export { MainView }; */
-
 // src/components/MainView/MainView.jsx
-import React, { useEffect, useState } from "react";
-import { MovieCard } from "../MovieCard/MovieCard";
-import { MovieView } from "../MovieView/MovieView";
-import "./MainView.scss";
+import React, { useState, useEffect } from 'react';
+import { LoginView } from '../LoginView/LoginView';
+import { SignupView } from '../SignupView/SignupView';
+import { MovieView } from '../MovieView/MovieView';
+import { MovieCard } from '../MovieCard/MovieCard';
+import './MainView.scss';
 
 export const MainView = () => {
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const storedToken = localStorage.getItem('token');
+  const [user, setUser] = useState(storedUser ? storedUser : null);
+  const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
-    fetch("https://my-movie-flix-777-b5447997dd22.herokuapp.com/movies")
+    if (!token) return;
+
+    fetch('https://my-movie-flix-777-b544979d2d22.herokuapp.com/movies', {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((response) => response.json())
       .then((data) => {
         const moviesFromApi = data.map((movie) => {
@@ -76,7 +27,7 @@ export const MainView = () => {
             id: movie._id,
             title: movie.Title,
             description: movie.Description,
-            image: movie.ImagePath,
+            imagePath: movie.ImagePath,
             genre: movie.Genre.Name,
             director: movie.Director.Name,
           };
@@ -84,9 +35,9 @@ export const MainView = () => {
         setMovies(moviesFromApi);
       })
       .catch((error) => {
-        console.error("Error fetching movies:", error);
+        console.error('Error fetching movies:', error);
       });
-  }, []);
+  }, [token]);
 
   const handleMovieClick = (movie) => {
     setSelectedMovie(movie);
@@ -95,6 +46,21 @@ export const MainView = () => {
   const handleBackClick = () => {
     setSelectedMovie(null);
   };
+
+  if (!user) {
+    return (
+      <>
+        <LoginView
+          onLoggedIn={(user, token) => {
+            setUser(user);
+            setToken(token);
+          }}
+        />
+        or
+        <SignupView />
+      </>
+    );
+  }
 
   if (selectedMovie) {
     return <MovieView movie={selectedMovie} onBackClick={handleBackClick} />;
@@ -113,6 +79,15 @@ export const MainView = () => {
           onMovieClick={handleMovieClick}
         />
       ))}
+      <button
+        onClick={() => {
+          setUser(null);
+          setToken(null);
+          localStorage.clear();
+        }}
+      >
+        Logout
+      </button>
     </div>
   );
 };
