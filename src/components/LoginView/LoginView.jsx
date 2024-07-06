@@ -7,7 +7,7 @@ export const LoginView = ({ onLoggedIn }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('https://my-movie-flix-777-b544979d2d22.herokuapp.com/login', {
+    fetch('https://my-movie-flix-777-b5447997dd22.herokuapp.com/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ Username: username, Password: password }),
