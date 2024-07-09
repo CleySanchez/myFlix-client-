@@ -4,6 +4,8 @@ import { LoginView } from '../LoginView/LoginView';
 import { SignupView } from '../SignupView/SignupView';
 import { MovieView } from '../MovieView/MovieView';
 import { MovieCard } from '../MovieCard/MovieCard';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import './MainView.scss';
 
 export const MainView = () => {
@@ -39,6 +41,12 @@ export const MainView = () => {
       });
   }, [token]);
 
+  const handleLogout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.clear();
+  };
+
   const handleMovieClick = (movie) => {
     setSelectedMovie(movie);
   };
@@ -49,45 +57,56 @@ export const MainView = () => {
 
   if (!user) {
     return (
-      <>
-        <LoginView
-          onLoggedIn={(user, token) => {
-            setUser(user);
-            setToken(token);
-          }}
-        />
-        or
-        <SignupView />
-      </>
+      <Row className="justify-content-md-center">
+        <Col md={8}>
+          <LoginView
+            onLoggedIn={(user, token) => {
+              setUser(user);
+              setToken(token);
+            }}
+          />
+          or
+          <SignupView />
+        </Col>
+      </Row>
     );
   }
 
   if (selectedMovie) {
-    return <MovieView movie={selectedMovie} onBackClick={handleBackClick} />;
+    return (
+      <Row className="justify-content-md-center">
+        <Col md={8}>
+          <MovieView movie={selectedMovie} onBackClick={handleBackClick} />
+        </Col>
+      </Row>
+    );
   }
 
   if (movies.length === 0) {
-    return <div>The list is empty!</div>;
+    return (
+      <Row className="justify-content-md-center">
+        <Col md={8}>
+          <div>The list is empty!</div>
+        </Col>
+      </Row>
+    );
   }
 
   return (
-    <div>
+    <Row>
       {movies.map((movie) => (
-        <MovieCard
-          key={movie.id}
-          movie={movie}
-          onMovieClick={handleMovieClick}
-        />
+        <Col md={4} key={movie.id}>
+          <MovieCard movie={movie} onMovieClick={handleMovieClick} />
+        </Col>
       ))}
-      <button
-        onClick={() => {
-          setUser(null);
-          setToken(null);
-          localStorage.clear();
-        }}
-      >
-        Logout
-      </button>
-    </div>
+      <Col xs={12} className="text-center mt-3">
+        <button
+          className="btn btn-primary"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+      </Col>
+    </Row>
   );
 };
