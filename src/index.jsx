@@ -4,13 +4,23 @@ import { createRoot } from "react-dom/client";
 // Import the 'MainView' component from the 'components/main-view/main-view' file
 import { MainView } from "./components/MainView/MainView";
 
-// Import the main SCSS file for styling
+// Import the Bootstrap Container component
+import Container from 'react-bootstrap/Container';
+
+// Import the Bootstrap CSS for styling
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+// Import the main SCSS file for additional custom styling
 import "./index.scss";
 
 // Define the main application component
 const App = () => {
-  // Return the 'MainView' component as the main UI
-  return <MainView />;
+  // Return the 'MainView' component wrapped in a Bootstrap Container as the main UI
+  return (
+    <Container>
+      <MainView />
+    </Container>
+  );
 };
 
 // Find the root DOM element to render the React application into
