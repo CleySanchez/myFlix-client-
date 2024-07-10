@@ -1,6 +1,9 @@
 // Import the 'createRoot' method from 'react-dom/client' to create a root for React rendering
 import { createRoot } from "react-dom/client";
 
+// Import the 'BrowserRouter' component from 'react-router-dom' to enable routing
+import { BrowserRouter } from "react-router-dom";
+
 // Import the 'MainView' component from the 'components/main-view/main-view' file
 import { MainView } from "./components/MainView/MainView";
 
@@ -17,9 +20,11 @@ import "./index.scss";
 const App = () => {
   // Return the 'MainView' component wrapped in a Bootstrap Container as the main UI
   return (
-    <Container>
-      <MainView />
-    </Container>
+    <BrowserRouter>
+      <Container>
+        <MainView />
+      </Container>
+    </BrowserRouter>
   );
 };
 

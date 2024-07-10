@@ -1,26 +1,26 @@
-// src/index.scss
-
+// Import Bootstrap SCSS
 @import "~bootstrap/scss/bootstrap";
 
-// Custom Bootstrap variables
+/* // Custom Bootstrap variables
 $theme-colors: (
   "primary": #e50914,
   "secondary": #221f1f,
+  "dark": #141414,
+  "light": #ffffff
 );
 
 $font-family-base: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 body {
-  background-color: #141414;
-  color: #ffffff;
+  background-color: $theme-colors["dark"];
+  color: $theme-colors["light"];
   font-family: $font-family-base;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #ffffff;
+  color: $theme-colors["light"];
 }
 
-// Buttons
 .btn-primary {
   background-color: $theme-colors["primary"];
   border-color: $theme-colors["primary"];
@@ -29,29 +29,4 @@ h1, h2, h3, h4, h5, h6 {
     border-color: darken($theme-colors["primary"], 10%);
   }
 }
-
-// Form controls
-.form-control {
-  background-color: #333333;
-  color: #ffffff;
-  border: 1px solid #444444;
-  &:focus {
-    background-color: #444444;
-    border-color: $theme-colors["primary"];
-    box-shadow: none;
-  }
-}
-
-// Card
-.card {
-  background-color: #221f1f;
-  border: none;
-}
-
-.card-title, .card-text {
-  color: #ffffff;
-}
-
-.card-img-top {
-  border-bottom: 1px solid #444444;
-}
+ */

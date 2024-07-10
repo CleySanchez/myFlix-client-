@@ -4,8 +4,9 @@ import { LoginView } from '../LoginView/LoginView';
 import { SignupView } from '../SignupView/SignupView';
 import { MovieView } from '../MovieView/MovieView';
 import { MovieCard } from '../MovieCard/MovieCard';
+import { ProfileView } from '../ProfileView/ProfileView'; // Import the ProfileView component
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { NavigationBar } from '../navigation-bar/navigation-bar.jsx';
+import { NavigationBar } from '../Navigation-Bar/Navigation-Bar.jsx';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './MainView.scss';
@@ -46,6 +47,26 @@ export const MainView = () => {
     setUser(null);
     setToken(null);
     localStorage.clear();
+  };
+
+  const handleUpdateUser = (updatedUser) => {
+    // Implement user update logic here
+    console.log('Updating user:', updatedUser);
+  };
+
+  const handleDeregisterUser = () => {
+    // Implement user deregistration logic here
+    console.log('Deregistering user');
+  };
+
+  const handleAddFavorite = (movieId) => {
+    // Implement add favorite logic here
+    console.log('Adding favorite:', movieId);
+  };
+
+  const handleRemoveFavorite = (movieId) => {
+    // Implement remove favorite logic here
+    console.log('Removing favorite:', movieId);
   };
 
   return (
@@ -91,6 +112,23 @@ export const MainView = () => {
                 <Col md={8}>
                   <MovieView movies={movies} />
                 </Col>
+              )
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              user ? (
+                <ProfileView
+                  user={user}
+                  movies={movies}
+                  onUserUpdate={handleUpdateUser}
+                  onUserDeregister={handleDeregisterUser}
+                  addFavorite={handleAddFavorite}
+                  removeFavorite={handleRemoveFavorite}
+                />
+              ) : (
+                <Navigate to="/login" replace />
               )
             }
           />
