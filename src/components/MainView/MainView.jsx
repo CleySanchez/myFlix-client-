@@ -4,6 +4,8 @@ import { LoginView } from '../LoginView/LoginView';
 import { SignupView } from '../SignupView/SignupView';
 import { MovieView } from '../MovieView/MovieView';
 import { MovieCard } from '../MovieCard/MovieCard';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { NavigationBar } from '../navigation-bar/navigation-bar.jsx';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './MainView.scss';
@@ -14,7 +16,6 @@ export const MainView = () => {
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
     if (!token) return;
@@ -47,66 +48,72 @@ export const MainView = () => {
     localStorage.clear();
   };
 
-  const handleMovieClick = (movie) => {
-    setSelectedMovie(movie);
-  };
-
-  const handleBackClick = () => {
-    setSelectedMovie(null);
-  };
-
-  if (!user) {
-    return (
-      <Row className="justify-content-md-center">
-        <Col md={8}>
-          <LoginView
-            onLoggedIn={(user, token) => {
-              setUser(user);
-              setToken(token);
-            }}
-          />
-          or
-          <SignupView />
-        </Col>
-      </Row>
-    );
-  }
-
-  if (selectedMovie) {
-    return (
-      <Row className="justify-content-md-center">
-        <Col md={8}>
-          <MovieView movie={selectedMovie} onBackClick={handleBackClick} />
-        </Col>
-      </Row>
-    );
-  }
-
-  if (movies.length === 0) {
-    return (
-      <Row className="justify-content-md-center">
-        <Col md={8}>
-          <div>The list is empty!</div>
-        </Col>
-      </Row>
-    );
-  }
-
   return (
-    <Row>
-      {movies.map((movie) => (
-        <Col md={4} key={movie.id}>
-          <MovieCard movie={movie} onMovieClick={handleMovieClick} />
-        </Col>
-      ))}
-      <Col xs={12} className="text-center mt-3">
-        <button
-          className="btn btn-primary"
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
-      </Col>
-    </Row>
+    <BrowserRouter>
+      <NavigationBar user={user} onLoggedOut={handleLogout} />
+      <Row className="justify-content-md-center">
+        <Routes>
+          <Route
+            path="/signup"
+            element={
+              user ? (
+                <Navigate to="/" />
+              ) : (
+                <Col md={5}>
+                  <SignupView />
+                </Col>
+              )
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              user ? (
+                <Navigate to="/" />
+              ) : (
+                <Col md={5}>
+                  <LoginView onLoggedIn={(user, token) => {
+                    setUser(user);
+                    setToken(token);
+                  }} />
+                </Col>
+              )
+            }
+          />
+          <Route
+            path="/movies/:movieId"
+            element={
+              !user ? (
+                <Navigate to="/login" replace />
+              ) : movies.length === 0 ? (
+                <Col>The list is empty!</Col>
+              ) : (
+                <Col md={8}>
+                  <MovieView movies={movies} />
+                </Col>
+              )
+            }
+          />
+          <Route
+            path="/"
+            element={
+              !user ? (
+                <Navigate to="/login" replace />
+              ) : movies.length === 0 ? (
+                <Col>The list is empty!</Col>
+              ) : (
+                <>
+                  {movies.map((movie) => (
+                    <Col className="mb-4" key={movie.id} md={3}>
+                      <MovieCard movie={movie} />
+                    </Col>
+                  ))}
+                </>
+              )
+            }
+          />
+        </Routes>
+      </Row>
+    </BrowserRouter>
   );
 };
