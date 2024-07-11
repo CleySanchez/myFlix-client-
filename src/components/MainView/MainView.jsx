@@ -6,7 +6,7 @@ import { MovieView } from '../MovieView/MovieView';
 import { MovieCard } from '../MovieCard/MovieCard';
 import { ProfileView } from '../ProfileView/ProfileView'; // Import the ProfileView component
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { NavigationBar } from '../Navigation-Bar/Navigation-Bar.jsx';
+import  NavigationBar  from '../Navigation-Bar/Navigation-Bar.jsx';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './MainView.scss';
@@ -155,3 +155,4 @@ export const MainView = () => {
     </BrowserRouter>
   );
 };
+

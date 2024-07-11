@@ -16,17 +16,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // Import the main SCSS file for additional custom styling
 import "./index.scss";
 
-// Define the main application component
-const App = () => {
-  // Return the 'MainView' component wrapped in a Bootstrap Container as the main UI
-  return (
-    <BrowserRouter>
-      <Container>
-        <MainView />
-      </Container>
-    </BrowserRouter>
-  );
-};
 
 // Find the root DOM element to render the React application into
 const container = document.querySelector("#root");

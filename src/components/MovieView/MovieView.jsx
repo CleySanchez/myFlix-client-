@@ -1,11 +1,16 @@
 // src/components/MovieView/MovieView.jsx
 import React from 'react';
+import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './MovieView.scss';
 
 export const MovieView = ({ movie, addFavorite, removeFavorite, isFavorite }) => {
+  const { movieId } = useParams();
+
+  const movie= movies.find((m) => m.id === movieId);
+  
   return (
     <Card className="movie-view">
       <Link to="/">
