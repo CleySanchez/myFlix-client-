@@ -1,10 +1,10 @@
-// src/components/profile-view/profile-view.jsx
+// src/components/ProfileView/ProfileView.jsx
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Card, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { MovieCard } from '../MovieCard/MovieCard';
 
-export const ProfileView = ({ user, movies, onUserUpdate, onUserDeregister }) => {
+export const ProfileView = ({ user, movies, onUserUpdate, onUserDeregister, addFavorite, removeFavorite, favorites }) => {
   const [username, setUsername] = useState(user.Username);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState(user.Email);
@@ -12,11 +12,11 @@ export const ProfileView = ({ user, movies, onUserUpdate, onUserDeregister }) =>
   const [favoriteMovies, setFavoriteMovies] = useState([]);
 
   useEffect(() => {
-    setFavoriteMovies(movies.filter(movie => user.FavoriteMovies.includes(movie.id)));
-  }, [user, movies]);
+    setFavoriteMovies(movies.filter(movie => favorites.includes(movie.id)));
+  }, [favorites, movies]);
 
   const handleUpdate = () => {
-    onUserUpdate({ username, password, email, birthday });
+    onUserUpdate({ Username: username, Password: password, Email: email, Birthday: birthday, FavoriteMovies: favorites });
   };
 
   const handleDeregister = () => {
@@ -73,7 +73,12 @@ export const ProfileView = ({ user, movies, onUserUpdate, onUserDeregister }) =>
         <Row>
           {favoriteMovies.map((movie) => (
             <Col key={movie.id} md={4}>
-              <MovieCard movie={movie} />
+              <MovieCard
+                movie={movie}
+                addFavorite={addFavorite}
+                removeFavorite={removeFavorite}
+                isFavorite={favorites.includes(movie.id)}
+              />
             </Col>
           ))}
         </Row>
@@ -92,4 +97,7 @@ ProfileView.propTypes = {
   movies: PropTypes.array.isRequired,
   onUserUpdate: PropTypes.func.isRequired,
   onUserDeregister: PropTypes.func.isRequired,
+  addFavorite: PropTypes.func.isRequired,
+  removeFavorite: PropTypes.func.isRequired,
+  favorites: PropTypes.array.isRequired,
 };

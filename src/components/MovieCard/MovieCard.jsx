@@ -41,3 +41,4 @@ MovieCard.propTypes = {
   removeFavorite: PropTypes.func.isRequired,
   isFavorite: PropTypes.bool.isRequired,
 };
+

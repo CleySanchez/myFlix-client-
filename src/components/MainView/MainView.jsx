@@ -4,9 +4,9 @@ import { LoginView } from '../LoginView/LoginView';
 import { SignupView } from '../SignupView/SignupView';
 import { MovieView } from '../MovieView/MovieView';
 import { MovieCard } from '../MovieCard/MovieCard';
-import { ProfileView } from '../ProfileView/ProfileView'; // Import the ProfileView component
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import  NavigationBar  from '../Navigation-Bar/Navigation-Bar.jsx';
+import { ProfileView } from '../ProfileView/ProfileView';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import NavigationBar from '../Navigation-Bar/Navigation-Bar.jsx';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './MainView.scss';
@@ -17,6 +17,7 @@ export const MainView = () => {
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
+  const [favorites, setFavorites] = useState(user ? user.FavoriteMovies : []);
 
   useEffect(() => {
     if (!token) return;
@@ -50,27 +51,43 @@ export const MainView = () => {
   };
 
   const handleUpdateUser = (updatedUser) => {
-    // Implement user update logic here
-    console.log('Updating user:', updatedUser);
+    // Update local user state and localStorage
+    setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
   };
 
   const handleDeregisterUser = () => {
-    // Implement user deregistration logic here
     console.log('Deregistering user');
   };
 
   const handleAddFavorite = (movieId) => {
-    // Implement add favorite logic here
-    console.log('Adding favorite:', movieId);
+    const updatedFavorites = [...favorites, movieId];
+    setFavorites(updatedFavorites);
+    setUser({ ...user, FavoriteMovies: updatedFavorites });
+    localStorage.setItem('user', JSON.stringify({ ...user, FavoriteMovies: updatedFavorites }));
+
+    // Update the user on the server as well
+    fetch(`https://my-movie-flix-777-b5447997dd22.herokuapp.com/users/${user.Username}/movies/${movieId}`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+    });
   };
 
   const handleRemoveFavorite = (movieId) => {
-    // Implement remove favorite logic here
-    console.log('Removing favorite:', movieId);
+    const updatedFavorites = favorites.filter(id => id !== movieId);
+    setFavorites(updatedFavorites);
+    setUser({ ...user, FavoriteMovies: updatedFavorites });
+    localStorage.setItem('user', JSON.stringify({ ...user, FavoriteMovies: updatedFavorites }));
+
+    // Update the user on the server as well
+    fetch(`https://my-movie-flix-777-b5447997dd22.herokuapp.com/users/${user.Username}/movies/${movieId}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    });
   };
 
   return (
-    <BrowserRouter>
+    <>
       <NavigationBar user={user} onLoggedOut={handleLogout} />
       <Row className="justify-content-md-center">
         <Routes>
@@ -96,6 +113,7 @@ export const MainView = () => {
                   <LoginView onLoggedIn={(user, token) => {
                     setUser(user);
                     setToken(token);
+                    setFavorites(user.FavoriteMovies);
                   }} />
                 </Col>
               )
@@ -110,7 +128,12 @@ export const MainView = () => {
                 <Col>The list is empty!</Col>
               ) : (
                 <Col md={8}>
-                  <MovieView movies={movies} />
+                  <MovieView 
+                    movies={movies}
+                    addFavorite={handleAddFavorite}
+                    removeFavorite={handleRemoveFavorite}
+                    favorites={favorites}
+                  />
                 </Col>
               )
             }
@@ -126,6 +149,7 @@ export const MainView = () => {
                   onUserDeregister={handleDeregisterUser}
                   addFavorite={handleAddFavorite}
                   removeFavorite={handleRemoveFavorite}
+                  favorites={favorites}
                 />
               ) : (
                 <Navigate to="/login" replace />
@@ -143,7 +167,12 @@ export const MainView = () => {
                 <>
                   {movies.map((movie) => (
                     <Col className="mb-4" key={movie.id} md={3}>
-                      <MovieCard movie={movie} />
+                      <MovieCard
+                        movie={movie}
+                        addFavorite={handleAddFavorite}
+                        removeFavorite={handleRemoveFavorite}
+                        isFavorite={favorites.includes(movie.id)}
+                      />
                     </Col>
                   ))}
                 </>
@@ -152,7 +181,6 @@ export const MainView = () => {
           />
         </Routes>
       </Row>
-    </BrowserRouter>
+    </>
   );
 };
-
