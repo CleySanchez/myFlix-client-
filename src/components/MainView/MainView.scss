@@ -1,11 +1,140 @@
-.main-view {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 20px;
-  background-color: #f9f9f9;
+body {
+  background-color: #1c1c1c; // Dark grey background for the entire page
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-.main-view .movie-card {
-  margin: 10px;
+a {
+  color: #e50914;
+}
+
+a:hover {
+  color: #b20710;
+}
+
+.container {
+  padding: 20px;
+}
+
+.navbar {
+  background-color: #141414;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+}
+
+.navbar-brand, .nav-link {
+  color: #ffffff;
+}
+
+.nav-link:hover {
+  color: #e50914;
+}
+
+.main-view {
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #1c1c1c; // Dark grey background for main view
+  min-height: 100vh; // Ensure it covers full height
+}
+
+.profile-view {
+  background-color: #333333;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.profile-view h2 {
+  color: #e50914;
+  margin-bottom: 20px;
+}
+
+.movie-view {
+  background-color: #333333;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.movie-view .btn-primary {
+  background-color: #e50914;
+  border: none;
+}
+
+.movie-view .btn-primary:hover {
+  background-color: #b20710;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #222222;
+  color: #ffffff;
+}
+
+.search-input::placeholder {
+  color: #888888;
+}
+
+.movie-card {
+  background-color: #333333; // Dark background for the card
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  margin-bottom: 20px;
+  height: 400px; // Fixed height
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+}
+
+.movie-card img {
+  height: 250px; // Adjust height as needed
+  object-fit: cover;
+  width: 100%; // Ensure the image covers the full width
+}
+
+.movie-card .card-body {
+  padding: 10px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.movie-card .card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center; // Center align the titles
+}
+
+.movie-card .btn-primary {
+  background-color: #e50914; // Netflix red
+  border: none;
+}
+
+.movie-card .btn-primary:hover {
+  background-color: #b20710;
+}
+
+.movie-card .btn-danger {
+  background-color: #b20710;
+  border: none;
+}
+
+.movie-card .btn-danger:hover {
+  background-color: #7f0709;
 }

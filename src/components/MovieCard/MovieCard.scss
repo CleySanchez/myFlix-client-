@@ -1,31 +1,61 @@
-// src/components/MovieView/MovieView.scss
+.movie-card-link {
+  text-decoration: none;
+  color: inherit;
+}
 
-.movie-view {
-  padding: 20px;
-  background-color: #141414;
-  border-radius: 8px;
+.movie-card {
+  background-color: #333333; // Dark background for the card
   color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  margin-bottom: 20px;
+  height: 400px; // Fixed height
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 
   img {
-    width: 100%;
-    max-height: 500px;
+    height: 250px; // Adjust height as needed
     object-fit: cover;
-    margin-bottom: 20px;
+    width: 100%; // Ensure the image covers the full width
   }
 
-  h2 {
-    color: #e50914;
+  .card-body {
+    padding: 10px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
-  p {
-    color: #b3b3b3;
+  .card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center; // Center align the titles
   }
 
-  button {
-    background-color: #e50914;
+  .btn-primary {
+    background-color: #e50914; // Netflix red
     border: none;
-    &:hover {
-      background-color: darken(#e50914, 10%);
-    }
+  }
+
+  .btn-primary:hover {
+    background-color: #b20710;
+  }
+
+  .btn-danger {
+    background-color: #b20710;
+    border: none;
+  }
+
+  .btn-danger:hover {
+    background-color: #7f0709;
   }
 }

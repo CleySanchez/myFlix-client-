@@ -1,4 +1,3 @@
-// src/components/MovieCard/MovieCard.jsx
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
@@ -7,24 +6,23 @@ import './MovieCard.scss';
 
 export const MovieCard = ({ movie, addFavorite, removeFavorite, isFavorite }) => {
   return (
-    <Card className="movie-card">
-      <Card.Img variant="top" src={movie.imagePath} />
-      <Card.Body>
-        <Card.Title>{movie.title}</Card.Title>
-        <Link to={`/movies/${movie.id}`}>
-          <Button variant="link">Open</Button>
-        </Link>
-        {isFavorite ? (
-          <Button variant="danger" onClick={() => removeFavorite(movie.id)}>
-            Remove from Favorites
-          </Button>
-        ) : (
-          <Button variant="primary" onClick={() => addFavorite(movie.id)}>
-            Add to Favorites
-          </Button>
-        )}
-      </Card.Body>
-    </Card>
+    <Link to={`/movies/${movie.id}`} className="movie-card-link">
+      <Card className="movie-card">
+        <Card.Img variant="top" src={movie.imagePath} />
+        <Card.Body>
+          <Card.Title>{movie.title}</Card.Title>
+          {isFavorite ? (
+            <Button variant="danger" onClick={(e) => { e.preventDefault(); removeFavorite(movie.id); }}>
+              Remove from Favorites
+            </Button>
+          ) : (
+            <Button variant="primary" onClick={(e) => { e.preventDefault(); addFavorite(movie.id); }}>
+              Add to Favorites
+            </Button>
+          )}
+        </Card.Body>
+      </Card>
+    </Link>
   );
 };
 
@@ -41,4 +39,3 @@ MovieCard.propTypes = {
   removeFavorite: PropTypes.func.isRequired,
   isFavorite: PropTypes.bool.isRequired,
 };
-

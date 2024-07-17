@@ -1,11 +1,10 @@
-// src/components/MainView/MainView.jsx
 import React, { useState, useEffect } from 'react';
 import { LoginView } from '../LoginView/LoginView';
 import { SignupView } from '../SignupView/SignupView';
 import { MovieView } from '../MovieView/MovieView';
 import { MovieCard } from '../MovieCard/MovieCard';
 import { ProfileView } from '../ProfileView/ProfileView';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import NavigationBar from '../Navigation-Bar/Navigation-Bar.jsx';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -18,6 +17,9 @@ export const MainView = () => {
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
   const [favorites, setFavorites] = useState(user ? user.FavoriteMovies : []);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [similarMovies, setSimilarMovies] = useState([]);
+  const location = useLocation(); // Hook to get the current route
 
   useEffect(() => {
     if (!token) return;
@@ -25,18 +27,21 @@ export const MainView = () => {
     fetch('https://my-movie-flix-777-b5447997dd22.herokuapp.com/movies', {
       headers: { Authorization: `Bearer ${token}` },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then((data) => {
-        const moviesFromApi = data.map((movie) => {
-          return {
-            id: movie._id,
-            title: movie.Title,
-            description: movie.Description,
-            imagePath: movie.ImagePath,
-            genre: movie.Genre.Name,
-            director: movie.Director.Name,
-          };
-        });
+        const moviesFromApi = data.map((movie) => ({
+          id: movie._id,
+          title: movie.Title,
+          description: movie.Description,
+          imagePath: movie.ImagePath,
+          genre: movie.Genre.Name,
+          director: movie.Director.Name,
+        }));
         setMovies(moviesFromApi);
       })
       .catch((error) => {
@@ -51,7 +56,6 @@ export const MainView = () => {
   };
 
   const handleUpdateUser = (updatedUser) => {
-    // Update local user state and localStorage
     setUser(updatedUser);
     localStorage.setItem('user', JSON.stringify(updatedUser));
   };
@@ -66,7 +70,6 @@ export const MainView = () => {
     setUser({ ...user, FavoriteMovies: updatedFavorites });
     localStorage.setItem('user', JSON.stringify({ ...user, FavoriteMovies: updatedFavorites }));
 
-    // Update the user on the server as well
     fetch(`https://my-movie-flix-777-b5447997dd22.herokuapp.com/users/${user.Username}/movies/${movieId}`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
@@ -79,17 +82,55 @@ export const MainView = () => {
     setUser({ ...user, FavoriteMovies: updatedFavorites });
     localStorage.setItem('user', JSON.stringify({ ...user, FavoriteMovies: updatedFavorites }));
 
-    // Update the user on the server as well
     fetch(`https://my-movie-flix-777-b5447997dd22.herokuapp.com/users/${user.Username}/movies/${movieId}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
     });
   };
 
+  const fetchSimilarMovies = (movieId) => {
+    fetch(`https://my-movie-flix-777-b5447997dd22.herokuapp.com/movies/${movieId}/similar`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const similarMoviesFromApi = data.map((movie) => ({
+          id: movie._id,
+          title: movie.Title,
+          description: movie.Description,
+          imagePath: movie.ImagePath,
+          genre: movie.Genre.Name,
+          director: movie.Director.Name,
+        }));
+        setSimilarMovies(similarMoviesFromApi);
+      })
+      .catch((error) => {
+        console.error('Error fetching similar movies:', error);
+      });
+  };
+
+  const filteredMovies = movies.filter(movie =>
+    movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <>
+    <div className="main-view">
       <NavigationBar user={user} onLoggedOut={handleLogout} />
       <Row className="justify-content-md-center">
+        {location.pathname !== '/profile' && (
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search for a movie..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        )}
         <Routes>
           <Route
             path="/signup"
@@ -161,11 +202,11 @@ export const MainView = () => {
             element={
               !user ? (
                 <Navigate to="/login" replace />
-              ) : movies.length === 0 ? (
+              ) : filteredMovies.length === 0 ? (
                 <Col>The list is empty!</Col>
               ) : (
                 <>
-                  {movies.map((movie) => (
+                  {filteredMovies.map((movie) => (
                     <Col className="mb-4" key={movie.id} md={3}>
                       <MovieCard
                         movie={movie}
@@ -181,6 +222,6 @@ export const MainView = () => {
           />
         </Routes>
       </Row>
-    </>
+    </div>
   );
 };
