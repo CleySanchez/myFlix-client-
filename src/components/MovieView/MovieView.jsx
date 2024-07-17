@@ -1,5 +1,4 @@
-// src/components/MovieView/MovieView.jsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
@@ -8,17 +7,22 @@ import './MovieView.scss';
 
 export const MovieView = ({ movies, addFavorite, removeFavorite, favorites }) => {
   const { movieId } = useParams();
-  const movie = movies.find((m) => m.id === movieId);
-  const isFavorite = favorites.includes(movie.id);
+  const [movie, setMovie] = useState(null);
+  const isFavorite = favorites.includes(movieId);
+
+  useEffect(() => {
+    const currentMovie = movies.find((m) => m.id === movieId);
+    setMovie(currentMovie);
+  }, [movieId, movies]);
 
   return (
     <Card className="movie-view">
       <Link to="/">
-        <Button variant="primary">Back</Button>
+        <Button variant="primary" className="back-button">Back</Button>
       </Link>
       {movie && (
         <>
-          <Card.Img variant="top" src={movie.imagePath} />
+          <Card.Img variant="top" src={movie.imagePath} className="movie-image"/>
           <Card.Body>
             <Card.Title>{movie.title}</Card.Title>
             <Card.Text>{movie.description}</Card.Text>

@@ -1,41 +1,11 @@
-.movie-view {
-  color: #fff;
-  background-color: #141414;
-  border-radius: 8px;
-  padding: 20px;
-}
-
-.movie-view img {
-  object-fit: cover;
-  width: 100%;
-  max-height: 500px;
-  margin-bottom: 20px;
-}
-
-.movie-view h2 {
-  color: #e50914;
-}
-
-.movie-view p {
-  color: #b3b3b3;
-}
-
-.movie-view button {
-  background-color: #e50914;
-  border: none;
-}
-
-.movie-view button:hover {
-  background-color: #b40710;
+.movie-card-link {
+  color: inherit;
+  text-decoration: none;
 }
 
 .movie-card {
   cursor: pointer;
   transition: transform .3s ease-in-out;
-}
-
-.movie-card:hover {
-  transform: scale(1.05);
 }
 
 .movie-card .card-img-top {
@@ -62,16 +32,173 @@
   border-color: #b40710;
 }
 
-.main-view {
-  background-color: #f9f9f9;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 20px;
+.profile-view .form-group {
+  margin-bottom: 15px;
+}
+
+.profile-view .button-group {
+  gap: 10px;
+  margin-top: 20px;
   display: flex;
 }
 
-.main-view .movie-card {
-  margin: 10px;
+.profile-view .btn-primary {
+  background-color: #e50914;
+  border: none;
+}
+
+.profile-view .btn-primary:hover {
+  background-color: #b20710;
+}
+
+.profile-view .btn-danger {
+  background-color: #b20710;
+  border: none;
+}
+
+.profile-view .btn-danger:hover {
+  background-color: #7f0709;
+}
+
+body {
+  color: #fff;
+  background-color: #1c1c1c;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+a {
+  color: #e50914;
+}
+
+a:hover {
+  color: #b20710;
+}
+
+.container {
+  padding: 20px;
+}
+
+.navbar {
+  background-color: #141414;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+}
+
+.navbar-brand, .nav-link {
+  color: #fff;
+}
+
+.nav-link:hover {
+  color: #e50914;
+}
+
+.main-view {
+  background-color: #1c1c1c;
+  min-height: 100vh;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.profile-view {
+  background-color: #333;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.profile-view h2 {
+  color: #e50914;
+  margin-bottom: 20px;
+}
+
+.movie-view {
+  background-color: #333;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.movie-view .btn-primary {
+  background-color: #e50914;
+  border: none;
+}
+
+.movie-view .btn-primary:hover {
+  background-color: #b20710;
+}
+
+.search-input {
+  color: #fff;
+  background-color: #222;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.search-input::placeholder {
+  color: #888;
+}
+
+.movie-card {
+  color: #fff;
+  background-color: #333;
+  border: none;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 400px;
+  margin-bottom: 20px;
+  transition: transform .3s;
+  display: flex;
+  overflow: hidden;
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+}
+
+.movie-card img {
+  object-fit: cover;
+  width: 100%;
+  height: 250px;
+}
+
+.movie-card .card-body {
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+  padding: 10px;
+  display: flex;
+}
+
+.movie-card .card-title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  overflow: hidden;
+}
+
+.movie-card .btn-primary {
+  background-color: #e50914;
+  border: none;
+}
+
+.movie-card .btn-primary:hover {
+  background-color: #b20710;
+}
+
+.movie-card .btn-danger {
+  background-color: #b20710;
+  border: none;
+}
+
+.movie-card .btn-danger:hover {
+  background-color: #7f0709;
 }
 
 *, :before, :after {

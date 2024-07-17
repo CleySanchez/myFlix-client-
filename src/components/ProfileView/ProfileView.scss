@@ -1,0 +1,39 @@
+.profile-view {
+  background-color: #333333; // Dark background for profile view
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+
+  h2 {
+    color: #e50914; // Netflix red for headers
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .button-group {
+    margin-top: 20px; // Added margin-top
+    display: flex;
+    gap: 10px; // Space between buttons
+  }
+
+  .btn-primary {
+    background-color: #e50914;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #b20710;
+  }
+
+  .btn-danger {
+    background-color: #b20710;
+    border: none;
+  }
+
+  .btn-danger:hover {
+    background-color: #7f0709;
+  }
+}

@@ -1,8 +1,8 @@
-// src/components/ProfileView/ProfileView.jsx
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Card, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { MovieCard } from '../MovieCard/MovieCard';
+import './ProfileView.scss';
 
 export const ProfileView = ({ user, movies, onUserUpdate, onUserDeregister, addFavorite, removeFavorite, favorites }) => {
   const [username, setUsername] = useState(user.Username);
@@ -25,7 +25,7 @@ export const ProfileView = ({ user, movies, onUserUpdate, onUserDeregister, addF
 
   return (
     <Row className="profile-view">
-      <Col md={6}>
+      <Col md={6} className="profile-section">
         <h2>User Profile</h2>
         <Form>
           <Form.Group controlId="formUsername">
@@ -60,19 +60,21 @@ export const ProfileView = ({ user, movies, onUserUpdate, onUserDeregister, addF
               onChange={(e) => setBirthday(e.target.value)}
             />
           </Form.Group>
-          <Button variant="primary" onClick={handleUpdate}>
-            Update
-          </Button>
-          <Button variant="danger" onClick={handleDeregister} className="ml-2">
-            Deregister
-          </Button>
+          <div className="button-group">
+            <Button variant="primary" onClick={handleUpdate}>
+              Update
+            </Button>
+            <Button variant="danger" onClick={handleDeregister}>
+              Deregister
+            </Button>
+          </div>
         </Form>
       </Col>
-      <Col md={6}>
+      <Col md={6} className="favorite-movies-section">
         <h2>Favorite Movies</h2>
         <Row>
           {favoriteMovies.map((movie) => (
-            <Col key={movie.id} md={4}>
+            <Col key={movie.id} md={6} lg={4} className="mb-4">
               <MovieCard
                 movie={movie}
                 addFavorite={addFavorite}
